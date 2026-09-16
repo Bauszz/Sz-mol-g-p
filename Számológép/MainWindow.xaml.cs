@@ -132,28 +132,24 @@ namespace Számológép
                 {
                     case "+":
                         tb_kijelzo.Text = (backcalc + tempcalc).ToString();
-                        tempcalc = 0;
                         numnextclc = false;
                         backcalc = Convert.ToDouble(tb_kijelzo.Text);
                         break;
 
                     case "-":
                         tb_kijelzo.Text = (backcalc - tempcalc).ToString();
-                        tempcalc = 0;
                         numnextclc = false;
                         backcalc = Convert.ToDouble(tb_kijelzo.Text);
                         break;
 
                     case "*":
                         tb_kijelzo.Text = (backcalc * tempcalc).ToString();
-                        tempcalc = 0;
                         numnextclc = false;
                         backcalc = Convert.ToDouble(tb_kijelzo.Text);
                         break;
 
                     case "/":
                         tb_kijelzo.Text = (backcalc / tempcalc).ToString();
-                        tempcalc = 0;
                         numnextclc = false;
                         backcalc = Convert.ToDouble(tb_kijelzo.Text);
                         break;
