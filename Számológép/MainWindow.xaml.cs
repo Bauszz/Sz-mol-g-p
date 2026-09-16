@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Drawing;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,6 +18,12 @@ namespace Számológép
     /// </summary>
     public partial class MainWindow : Window
     {
+        string Operator = "";
+        double backcalc = 0;
+        double tempcalc = 0;
+        bool opnextno = true;
+        bool numnextclc = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -52,17 +60,17 @@ namespace Számológép
                     };
                     if (char.IsDigit(label[0]))
                     {
-                        btn.Background = Brushes.WhiteSmoke;
+                        btn.Background = System.Windows.Media.Brushes.WhiteSmoke;
                     }
                     else if (label == "C")
                     {
-                        btn.Background = Brushes.IndianRed;
-                        btn.Foreground = Brushes.White;
+                        btn.Background = System.Windows.Media.Brushes.IndianRed;
+                        btn.Foreground = System.Windows.Media.Brushes.White;
                     }
                     else
                     {
-                        btn.Background = Brushes.DodgerBlue;
-                        btn.Foreground = Brushes.White;
+                        btn.Background = System.Windows.Media.Brushes.DodgerBlue;
+                        btn.Foreground = System.Windows.Media.Brushes.White;
                     }
 
                     btn.Click += Button_Click;
@@ -79,8 +87,95 @@ namespace Számológép
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            string felirat = button.Content.ToString();
-            tb_kijelzo.Text = felirat;
+            if (button.Content == "C" && !opnextno)
+            {
+                tb_kijelzo.Text = "0";
+                backcalc = 0;
+                tempcalc = 0;
+                Operator = "";
+                numnextclc = false;
+                opnextno = true;
+            }
+
+            else if (button.Content == "+" && !opnextno)
+            {
+                tb_kijelzo.Text = "";
+                opnextno = true;
+                Operator = "+";
+                numnextclc = true;
+            }
+
+            else if (button.Content == "-" && !opnextno)
+            {
+                tb_kijelzo.Text = "";
+                opnextno = true;
+                Operator = "-";
+                numnextclc = true;
+            }
+            else if (button.Content == "*" && !opnextno)
+            {
+                tb_kijelzo.Text = "";
+                opnextno = true;
+                Operator = "*";
+                numnextclc = true;
+            }
+            else if (button.Content == "/" && !opnextno)
+            {
+                tb_kijelzo.Text = "";
+                opnextno = true;
+                Operator = "/";
+                numnextclc = true;
+            }
+            else if (button.Content == "=" && !opnextno)
+            {
+                switch (Operator)
+                {
+                    case "+":
+                        tb_kijelzo.Text = (backcalc + tempcalc).ToString();
+                        tempcalc = 0;
+                        numnextclc = false;
+                        backcalc = Convert.ToDouble(tb_kijelzo.Text);
+                        break;
+
+                    case "-":
+                        tb_kijelzo.Text = (backcalc - tempcalc).ToString();
+                        tempcalc = 0;
+                        numnextclc = false;
+                        backcalc = Convert.ToDouble(tb_kijelzo.Text);
+                        break;
+
+                    case "*":
+                        tb_kijelzo.Text = (backcalc * tempcalc).ToString();
+                        tempcalc = 0;
+                        numnextclc = false;
+                        backcalc = Convert.ToDouble(tb_kijelzo.Text);
+                        break;
+
+                    case "/":
+                        tb_kijelzo.Text = (backcalc / tempcalc).ToString();
+                        tempcalc = 0;
+                        numnextclc = false;
+                        backcalc = Convert.ToDouble(tb_kijelzo.Text);
+                        break;
+                }
+            }
+            else
+            {
+                if (tb_kijelzo.Text == "0") tb_kijelzo.Text = "";
+
+                if (numnextclc)
+                {
+                    tb_kijelzo.Text += button.Content;
+                    tempcalc = Convert.ToDouble(tb_kijelzo.Text);
+                }
+                else
+                {
+                    tb_kijelzo.Text += button.Content;
+                    backcalc = Convert.ToDouble(tb_kijelzo.Text);
+                }
+                opnextno = false;
+            }
+
         }
     }
 }
